@@ -13,7 +13,7 @@ search path, you can run "make qemu".
 ------------------------------------------------------------------------------------------
 
 To run the image [to create the container] in powershell:
-        docker run -it -v "<path to cloned riscv>:/home/os-iitm/xv6-riscv" svkv/riscv-tools:v1.0
+        docker run -it -v "C:\Users\ASUS\Desktop\xv6-riscv:/home/os-iitm/xv6-riscv" svkv/riscv-tools:v1.0
 
 
 To remove all of the containers of an image: 
