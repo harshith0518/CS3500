@@ -75,6 +75,7 @@ int             pipewrite(struct pipe*, uint64, int);
 int            printf(char*, ...) __attribute__ ((format (printf, 1, 2)));
 void            panic(char*) __attribute__((noreturn));
 void            printfinit(void);
+void           backtrace(void); // for LAB2: RISC-V backtracing for xv6 kernel.
 
 // proc.c
 int             cpuid(void);

@@ -61,6 +61,7 @@ sys_sleep(void)
   int n;
   uint ticks0;
 
+  backtrace(); // for LAB2: RISC-V backtracing for xv6 kernel.
   argint(0, &n);
   if(n < 0)
     n = 0;

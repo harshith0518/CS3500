@@ -14,7 +14,6 @@
 #include "riscv.h"
 #include "defs.h"
 #include "proc.h"
-
 volatile int panicking = 0; // printing a panic message
 volatile int panicked = 0; // spinning forever at end of a panic
 
@@ -139,6 +138,7 @@ panic(char *s)
   panicking = 1;
   printf("panic: ");
   printf("%s\n", s);
+  backtrace(); // for LAB2: RISC-V backtracing for xv6 kernel.
   panicked = 1; // freeze uart output from other CPUs
   for(;;)
     ;
@@ -148,4 +148,33 @@ void
 printfinit(void)
 {
   initlock(&pr.lock, "pr");
+}
+
+// for LAB2: RISC-V backtracing for xv6 kernel.
+void
+backtrace(void)
+{
+  uint64 fp = r_fp();               // getting s0 value
+  uint64 start_page = PGROUNDDOWN(fp);
+
+  printf("backtrace:\n");
+
+  while (fp != 0) {
+
+    if (PGROUNDDOWN(fp) != start_page)
+      break;
+
+    //   fp-8  = saved ra
+    //   fp-16 = saved s0 (previous fp)
+    uint64 ra = *(uint64 *)(fp - 8);
+    uint64 prev_fp = *(uint64 *)(fp - 16);
+
+    printf("%p\n", (void *)ra);
+
+    // validity check
+    if (prev_fp <= fp)
+      break;
+
+    fp = prev_fp;
+  }
 }
